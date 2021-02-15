@@ -5,6 +5,11 @@ require 'ruby_rsa'
 RSpec.describe RSA::Math do
   describe "#even_binary?" do
     it "identifies even binary string" do
+      result = RSA::Math.even_binary?("11111110")
+      expect(result).to be true
+    end
+
+    it "identifies odd binary string" do
       result = RSA::Math.even_binary?("11111111")
       expect(result).to be false
     end
