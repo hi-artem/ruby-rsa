@@ -13,17 +13,17 @@ RSpec.describe RSA::Random do
     end
   end
 
-  describe "#odd_random_number" do
+  describe "#random_odd" do
     it "generates odd random number" do
-      num1 = RSA::Random.odd_random_number(256).to_i(2)
+      num1 = RSA::Random.random_odd(256).to_i(2)
       result1 = num1.odd?
       expect(result1).to be true 
     end
   end
 
-  describe "#odd_random_prime" do
+  describe "#random_prime" do
     it "generates odd random prime number" do
-      num1 = RSA::Random.odd_random_prime(1024)
+      num1 = RSA::Random.random_prime(1024)
       bnum1 =  OpenSSL::BN.new(num1)
       result1 = bnum1.odd?
       expect(result1).to be true 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module RSA
-  class Math
+  module Math
     def self.even_binary?(b_string)
       b_string[-1] == "0" ? true : false
     end
