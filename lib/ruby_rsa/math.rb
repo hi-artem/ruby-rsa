@@ -52,6 +52,9 @@ module RSA
         if n.abs < 2
           false
         else
+          q = Queue.new
+          t = []
+
           likely_prime = true
           # openssl does 64 rounds for 1024bits and 128 rounds for 2048bits
           # read more: https://www.openssl.org/docs/manmaster/man3/BN_check_prime.html
@@ -59,9 +62,11 @@ module RSA
             begin
               a = rand(n)
             end while a == 0
-            likely_prime = likely_prime?(a, n)
+            t << Thread.new { q.push(likely_prime?(a,n)) }
+            likely_prime = q.pop
             break unless likely_prime
           end
+          t.each(&:kill).each(&:join)
           likely_prime
         end
       end
