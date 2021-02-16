@@ -54,7 +54,7 @@ module RSA
       queue = Queue.new
       threads = []
 
-      (0..10).each do |t|
+      (0..5).each do |t|
         threads << Thread.new { queue.push(miller_rabin(decimal_int)) }
       end
 
@@ -102,7 +102,7 @@ module RSA
           likely_prime = true
           # openssl does 64 rounds for 1024bits and 128 rounds for 2048bits
           # read more: https://www.openssl.org/docs/manmaster/man3/BN_check_prime.html
-          27.times do |i|
+          64.times do |i|
             begin
               a = rand(n)
             end while a == 0
