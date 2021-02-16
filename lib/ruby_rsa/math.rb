@@ -2,6 +2,50 @@
 
 module RSA
   module Math
+    def self.modpow(base, exponent, modulus)
+      result = 1
+      while exponent > 0
+        result   = (base * result) % modulus unless (exponent & 1).zero?
+        base     = (base * base)   % modulus
+        exponent >>= 1
+      end
+      result
+    end
+
+    def self.gcd(a, b)
+      larger = a > b ? a : b
+      smaller = a > b ? b : a
+      if smaller > 0
+        gcd(smaller, larger % smaller)
+      else
+        larger
+      end
+    end
+
+    # the extended euclidean algorithm
+    def self.inverse(modulus, num)
+      last_remainder = modulus.abs
+      remainder = num.abs
+      x = 0
+      last_x = 1
+      y = 1
+      last_y = 0
+      while remainder != 0
+        quotient = last_remainder / remainder
+        temp_remainder = remainder
+        remainder = last_remainder % remainder
+        last_remainder = temp_remainder
+        temp_x = x
+        x = last_x - quotient*x
+        last_x = temp_x
+        temp_y = y
+        y = last_y - quotient*y
+        last_y = temp_y
+      end
+      raise if last_remainder != 1
+      (last_x * (modulus < 0 ? -1 : 1)) % num
+    end
+
     def self.even_binary?(b_string)
       b_string[-1] == "0" ? true : false
     end
