@@ -40,6 +40,13 @@ module RSA
       key_asn1.to_der
     end
 
+    def self.read_private(filename)
+      File.open(filename, 'rb') {|file| 
+        der = file.read
+        return RSAPrivateKey.parse(der) 
+      }
+    end
+
     def self.write_private(filename, key)
       der = to_der_private(key)
       File.open(filename, 'wb') {|file| file.write(der) }
@@ -54,6 +61,13 @@ module RSA
     def self.to_der_public(key)
       key_asn1 = initialize_public(key)
       key_asn1.to_der
+    end
+
+    def self.read_public(filename)
+      File.open(filename, 'rb') {|file| 
+        der = file.read
+        return RSAPublicKey.parse(der) 
+      }
     end
 
     def self.write_public(filename, key)

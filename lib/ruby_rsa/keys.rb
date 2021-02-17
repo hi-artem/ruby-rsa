@@ -6,6 +6,14 @@ module RSA
       raise 'subclass is expected to implement initialize'
     end
 
+    def export_to_file 
+      raise 'subclass is expected to implement export_to_file'
+    end
+
+    def import_from_file 
+      raise 'subclas is expected to implement import_from_file'
+    end
+
     def encrypt(plaintext)
       case plaintext
         when Integer      then encrypt_integer(plaintext)
@@ -39,6 +47,14 @@ module RSA
       @coef = RSA::Math.inverse(@q, @p)
     end
 
+    def export_to_file(filename, fomat = "DER")
+      RSA::PKCS.write_private(filename, self)
+    end
+
+    def import_from_file 
+      raise 'import_from_file method is currently not implemented'
+    end
+
     def decrypt(ciphertext)
       case ciphertext
         when Integer      then decrypt_integer(ciphertext)
@@ -59,6 +75,14 @@ module RSA
     def initialize(private_key)
       @n = private_key.n
       @e = private_key.e
+    end
+
+    def export_to_file(filename, fomat = "DER")
+      RSA::PKCS.write_public(filename, self)
+    end
+
+    def import_from_file 
+      raise 'import_from_file method is currently not implemented'
     end
   end
 end
